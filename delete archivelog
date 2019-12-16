@@ -1,0 +1,33 @@
+rman target sys/oracle nocatalog
+
+
+RMAN>list archivelog all;
+
+RMAN>DELETE ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-1';
+
+export ORACLE_SID=sameoa;
+
+
+
+sqlplus /nolog
+conn / as sysdba
+startup
+
+
+
+
+
+export ORACLE_SID=sameoa1;
+
+rman target/
+
+
+RMAN>list archivelog all;
+
+RMAN>DELETE ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-1';
+
+
+
+crosscheck archivelog all;   --删除归档日志后必须做
+
+
