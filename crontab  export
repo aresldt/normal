@@ -1,0 +1,32 @@
+
+定时导出dmp备份的.sh文件
+
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/11g/db
+export ORACLE_SID=sameoa1
+export PATH=$ORACLE_HOME/bin:/u01/app/11g/product/bin:$PATH
+export BAKUPTIME=`date +%Y%m%d%H%M%S`  --定义当前系统时间变量
+export DATA_DIR=/home/oracle/oaback  --定义数据备份目录
+export LOG_DIR=/home/oracle/oalog   --定义日志目录
+exp oa_v61/Seeyon123@SAMEOA file=/home/oracle/oaback/oa`date +%Y%m%d%H%M`.dmp log=/home/oracle/oalog/oalog`date +%Y%m%d%H%M`.log owner=oa_v61
+
+find /home/oracle/oaback/ -mtime +5 |xargs rm -rf
+find /home/oracle/oalog/ -mtime +5 |xargs rm -rf
+
+
+给该脚本执行权限
+
+chmod +x test.sh #给test.sh可执行权限
+
+
+查看定时任务：crontab-l
+
+
+建立定时任务：crontab -e
+
+分 小时 日 月 星期 命令
+
+
+30 23 * * *  su - oracle -c "/home/oracle/qms_expbackup.sh >/home/oracle/qmsback/qmsbackup.log"
+00 20 * * *  su - oracle -c "/home/oracle/bis_expbackup.sh >/home/oracle/qmsback/qmsbackup.log"
+00 06 01 * * su - oracle -c "/home/oracle/dellog.sh"
