@@ -1,0 +1,48 @@
+
+创建表空间：
+
+create tablespace ldt_data 
+
+datafile '+data/sameoa/datafile/same_oa.dbf' 
+
+size 200m  
+
+autoextend on  
+
+next 200m maxsize unlimited
+
+extent management local;--存储超了，自动扩展。
+
+
+修改表空间：alter tablespace zqmes add datafile '+data/samedata/datafile/zqmes1.dbf' size 400m autoextend on;
+
+
+创建用户，密码，表空间，临时表空间。
+create user ARES identified by sameldt default tablespace ldt_data 
+temporary tablespace temp quota unlimited on ldt_data；
+
+分配权限：dba最高（不一定要给）
+grant resource,connect,dba to zqmes;
+
+
+删除用户：
+步骤一：  删除user
+
+drop user ×× cascade
+
+说明： 删除了user，只是删除了该user下的schema objects，是不会删除相应的tablespace的。
+
+步骤二： 删除tablespace
+
+DROP TABLESPACE tablespace_name INCLUDING CONTENTS AND DATAFILES;
+
+
+select * from dba_data_files;
+
+查看表空间：
+autoextend=NO时：maxbytes为0，bytes即为该数据文件的初始化大小，也为该文件最大大小。
+autoextend=YES时：如果bytes
+                                   如果bytes>maxbytes,则说明该数据文件进行了resize，resize即为该数据文件可使用的最大大小，即使没有达到32G，也无法自动扩展
+                                   如果bytes=maxbytes，则该数据文件可使用大小为bytes的值，无法扩展（受maxby
+
+alter user oa_v61 identified by Seeyon123;tes限制）
