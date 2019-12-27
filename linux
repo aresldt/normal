@@ -1,0 +1,23 @@
+export ORACLE_SID = sameoa1
+--装载实例
+
+crontab -l
+crontab -e  
+--定时任务
+
+rm -f bis*  
+rm -rf   
+--删除
+
+touch 
+--创建
+
+pwd
+--当前路径
+
+cd/ 回到当根目录
+
+
+cd 回车 回到当前目录
+
+ls -l 大小
