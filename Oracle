@@ -1,0 +1,62 @@
+状态：  crs_stat –t
+srvctl status database –d samedata 查看实例在每个节点运行状态
+
+
+
+1、关机   关闭CRS  /u01/app/11g/product/bin/crsctl stop crs
+shutdown -ry now  重启
+shutdown -h now   关机
+2、空间  df –h  --总空间
+         du –skh ./* | sort –n  当前目录下空间使用情况
+         grid: asmcmd  ————lsdg （查看空间）
+或者 acmca
+
+
+3、定时任务 crontab –e  crontab –l
+
+4、报警日志  位置 /u01/app/oracle/diag/rdbms/samedata/samedata1/trace  （定期清理） 同 sameoa
+
+5、RMAN 
+           rman target sys/oracle nocatalog
+           list archivelog all;
+           DELETE ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-1';清理
+
+crosscheck archivelog all;  清理后必须crosscheck
+6、 GRID
+listener.log   
+/u01/app/grid/diag/tnslsnr/dbadmin1/listener/trace  
+listener.log 不超过2G 
+mv listener.log listener.log.bak
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+查看表空间大小
+select dbf.tablespace_name,
+dbf.totalspace "总量(M)",
+dbf.totalblocks as 总块数,
+dfs.freespace "剩余总量(M)",
+dfs.freeblocks "剩余块数",
+(dfs.freespace / dbf.totalspace) * 100 "空闲比例" 
+from (select t.tablespace_name,
+sum(t.bytes) / 1024 / 1024 totalspace,
+sum(t.blocks) totalblocks
+from dba_data_files t
+group by t.tablespace_name) dbf,
+(select tt.tablespace_name,
+sum(tt.bytes) / 1024 / 1024 freespace,
+sum(tt.blocks) freeblocks
+from dba_free_space tt
+group by tt.tablespace_name) dfs
+where trim(dbf.tablespace_name) = trim(dfs.tablespace_name)
+
