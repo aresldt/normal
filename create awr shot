@@ -1,0 +1,31 @@
+export ORACLE_SID=sameoa2
+
+sqlplus /nolog  
+
+conn /as sysdba
+
+
+@?/rdbms/admin/awrrpt.sql
+
+
+生成报告：
+
+awrrpt_1_36045_36046.html
+
+退出 
+
+Root用户：
+
+Updatedb （更新数据库下所有路径文件位置）
+
+locate awrrpt_1_36045_36046.html
+
+（找位置）
+
+
+
+
+
+
+
+
