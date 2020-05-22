@@ -1,0 +1,84 @@
+一、登录相关
+1、
+Root:        查看错误登录次数
+pam_tally2 --user root
+
+2、
+Root:        查看异常登录日志
+tail -f /var/log/secure
+
+备注：tail -f 不断刷新日志信息
+此时要想暂停刷新，使用ctrl+s暂停终端。
+若想继续终端，使用ctrl+q。
+若想退出tail命令，直接使用ctrl+c
+
+
+二、常用命令
+1、tail -f     不断刷新日志信息
+此时要想暂停刷新，使用ctrl+s暂停终端。
+若想继续终端，使用ctrl+q。
+若想退出tail命令，直接使用ctrl+c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+三、Oracle检查相关
+
+1、RAC相关
+Grid：
+crsctl stat res –t    查看RESOURCE
+
+crsctl stat res -init –t    因11G版本不在检查一些基础资源，故使用该命令检查
+
+crsctl query css votedisk    查看votedisk的存储信息（votedisk 表决磁盘）
+
+crsctl check crs  查看crs状态（Oracle crs 集群）
+
+ocrcheck     检查集群注册表状态
+
+ocrconfig –showbackup  
+
+备注 （
+1、crsctl start cluster -all  //启动所有节点的集群服务
+2、crsctl stop crs -all -f //假设关闭crs失败，可以加上-f命令强制关闭
+
+）
+
+2、
+ORACLE
+检查SQL   
+
+
+show parameter processes；  取得数据库目前进程数。
+
+show parameter sga；显示实例SGA信息  
+
+show parameter memery 显示内存相关信息
+
+show parameter pga  显示pga信息
+
+select * from v$controlfile;  查看数据库控制文件状态
+
+select * from v$logfile;     查新数据库日志文件状态
+
+select name,status from v$datafile; 查看表空间文件状态
+select count(*) from v$session where lockwait is not null;
+查看有无锁的会话
+
+
+
